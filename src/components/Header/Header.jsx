@@ -1,7 +1,14 @@
 import './Header.css'
+import { useSelector, useDispatch  } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
+import { setLogged } from '../../redux';
 
 export default function Header() {
+
+    const userInfo = useSelector((state) => state.userInfo);
+    const isLogged = useSelector((state) => state.userLog.isLogged);
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -14,13 +21,24 @@ export default function Header() {
                     />
                     <h1 className="sr-only">Argent Bank</h1>
                 </Link>
-                <Link to={`/signin`}>
-                    <div className="main-nav-item">
+
+                <div className="main-nav-item">
+                    {isLogged ? (<>
                         <i className="fa fa-user-circle"></i>
-                        Sign In
-                    </div>
-                </Link>
-            </nav>
+                        <Link to={isLogged ? `/user` : null}>
+                            {isLogged ? `${userInfo.firstName} ${userInfo.lastName}` : ""}
+                        </Link>
+                    </>)
+                        : ""}
+                    <i className={isLogged ? "fa fa-sign-out" : "fa fa-user-circle"}></i>
+                    <Link to={isLogged ? `/home` : `/signin`} onClick={() => {
+                        isLogged ? dispatch(setLogged(false)) : null
+                        window.localStorage.removeItem('userToken');
+                    }}>
+                        {isLogged ? "Sign Out" : "Sign in"}
+                    </Link>
+                </div>
+            </nav >
         </>
     )
 }

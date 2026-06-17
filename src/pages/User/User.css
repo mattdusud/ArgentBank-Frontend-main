@@ -1,3 +1,7 @@
+h1 {
+  color: white;
+}
+
 .account {
   display: flex;
   justify-content: space-between;
