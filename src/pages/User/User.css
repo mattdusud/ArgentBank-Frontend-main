@@ -77,3 +77,39 @@ h1 {
     width: 200px;
   }
 }
+
+.changePopup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  background-color: #fff;
+  width: 80%;
+  margin: 0 auto;
+  flex-direction: column;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formPart {
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.formBtn {
+  background-color: #00bc77;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 30px;
+}

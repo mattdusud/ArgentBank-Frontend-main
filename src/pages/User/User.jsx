@@ -1,17 +1,66 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import './User.css'
+import { useState } from 'react';
+import { changeUsername } from '../../../changeUsernameAPI'
+import { setUser } from '../../redux';
+import { getUserInfo } from '../../../getUserInfoAPI';
 
 export default function User() {
 
-    const userInfo = useSelector((state) => state.userInfo);
+    let userInfo = useSelector((state) => state.userInfo);
+    const [formVisible, setFormVisible] = useState(false);
+    const dispatch = useDispatch();
+
+    async function handleSubmit(e) {
+
+        e.preventDefault();
+        if (document.getElementById("userName").value != "") {
+            let token = window.localStorage.getItem('userToken');
+            let newUsername = document.getElementById("userName").value;
+
+            const formOk = await changeUsername({ token, newUsername });
+            if (formOk) {
+                userInfo = await getUserInfo({ token: window.localStorage.getItem('userToken') });
+                dispatch(setUser(userInfo));
+                setFormVisible(false);
+            }
+        }
+        else {
+            alert("Please choose an username")
+        }
+    }
 
     return (
         <>
             <main className="main bg-dark">
                 <div className="header">
                     <h1>Welcome back<br />{`${userInfo.firstName} ${userInfo.lastName} aka ${userInfo.userName}  `}</h1>
-                    <button className="edit-button">Edit Name</button>
+                    <button className="edit-button" onClick={() => setFormVisible(!formVisible)}>Edit Name</button>
                 </div>
+                {formVisible ?
+                    <div className="changePopup">
+                        <h2>Edit User Info</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className='formPart'>
+                                <label htmlFor="userName">User Name</label>
+                                <input id="userName" name="userName" type="text" placeholder={userInfo.userName}></input>
+                            </div>
+                            <div className='formPart'>
+                                <label htmlFor="firstName">First Name</label>
+                                <input id="firstName" name="firstName" type="text" disabled value={userInfo.firstName}></input>
+                            </div>
+                            <div className='formPart'>
+                                <label htmlFor="lastName">Last Name</label>
+                                <input id="lastName" name="lastName" type="text" disabled value={userInfo.lastName}></input>
+                            </div>
+                            <div className='formPart'>
+                                <button className='formBtn' id="submitUsername" name="submitUsername">Save</button>
+                                <button className='formBtn' id="cancelUsername" name="cancelUsername"
+                                    onClick={() => setFormVisible(!formVisible)}>Cancel</button>
+                            </div>
+                        </form>
+                    </div> : null
+                }
                 <h2 className="sr-only">Accounts</h2>
                 <section className="account">
                     <div className="account-content-wrapper">
