@@ -1,7 +1,6 @@
-import './Header.css'
+import './Header.min.css'
 import { useSelector, useDispatch  } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { useState, useEffect, useContext } from 'react'
 import { setLogged } from '../../redux';
 
 export default function Header() {
@@ -26,7 +25,7 @@ export default function Header() {
                     {isLogged ? (<>
                         <i className="fa fa-user-circle"></i>
                         <Link to={isLogged ? `/user` : null}>
-                            {isLogged ? `${userInfo.firstName} ${userInfo.lastName}` : ""}
+                            {isLogged ? `${userInfo.userName}` : ""}
                         </Link>
                     </>)
                         : ""}

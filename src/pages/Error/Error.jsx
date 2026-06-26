@@ -3,6 +3,6 @@ import './Error.css'
 export default function Error() {
 
   return (
-    <div>Error</div>
+    <div>Error Page not Found</div>
   )
 }

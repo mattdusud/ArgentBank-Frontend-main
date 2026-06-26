@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import './User.css'
+import './User.min.css'
 import { useState } from 'react';
 import { changeUsername } from '../../../changeUsernameAPI'
 import { setUser } from '../../redux';

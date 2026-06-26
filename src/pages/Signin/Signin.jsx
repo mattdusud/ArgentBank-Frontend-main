@@ -1,4 +1,4 @@
-import './Signin.css'
+import './Signin.min.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { Connect } from '../../../connectAPI';

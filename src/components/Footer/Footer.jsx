@@ -1,4 +1,4 @@
-import './Footer.css'
+import './Footer.min.css'
 
 export default function Footer() {
 
