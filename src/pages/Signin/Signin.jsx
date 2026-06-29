@@ -1,8 +1,8 @@
 import './Signin.min.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { Connect } from '../../../connectAPI';
-import { getUserInfo } from '../../../getUserInfoAPI';
+import { Connect } from '../../scripts/connectAPI';
+import { getUserInfo } from '../../scripts/getUserInfoAPI';
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser, setLogged, store } from '../../redux';
 

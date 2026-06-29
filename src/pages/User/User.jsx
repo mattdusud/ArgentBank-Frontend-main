@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux'
 import './User.min.css'
 import { useState } from 'react';
-import { changeUsername } from '../../../changeUsernameAPI'
+import { changeUsername } from '../../scripts/changeUsernameAPI'
 import { setUser } from '../../redux';
-import { getUserInfo } from '../../../getUserInfoAPI';
+import { getUserInfo } from '../../scripts/getUserInfoAPI';
 
 export default function User() {
 
@@ -36,7 +36,7 @@ export default function User() {
         {isLogged?
             <main className="main bg-dark">
                 <div className="header">
-                    <h1>Welcome back<br />{`${userInfo.firstName} ${userInfo.lastName} aka ${userInfo.userName}  `}</h1>
+                    <h1>Welcome back<br />{`${userInfo.firstName} ${userInfo.lastName} / ${userInfo.userName}  `}</h1>
                     <button className="edit-button" onClick={() => setFormVisible(!formVisible)}>Edit Name</button>
                 </div>
                 {formVisible ?
