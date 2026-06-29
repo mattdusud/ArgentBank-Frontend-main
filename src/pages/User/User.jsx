@@ -10,6 +10,7 @@ export default function User() {
     let userInfo = useSelector((state) => state.userInfo);
     const [formVisible, setFormVisible] = useState(false);
     const dispatch = useDispatch();
+    const isLogged = useSelector((state) => state.userLog.isLogged);
 
     async function handleSubmit(e) {
 
@@ -32,6 +33,7 @@ export default function User() {
 
     return (
         <>
+        {isLogged?
             <main className="main bg-dark">
                 <div className="header">
                     <h1>Welcome back<br />{`${userInfo.firstName} ${userInfo.lastName} aka ${userInfo.userName}  `}</h1>
@@ -93,6 +95,7 @@ export default function User() {
                     </div>
                 </section>
             </main>
+    :"Utilisateur non connecté"}
         </>
     )
 }
