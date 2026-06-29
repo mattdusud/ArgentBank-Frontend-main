@@ -101,14 +101,21 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /userAccount/currentMonth:
+  /userAccount/currentMonth/{accountNumber}:
     get:
       security:
         - Bearer: []
       tags:
         - User account Module
       summary: User Account API
-      description:  API for fetching a user's bank account for the current month
+      parameters:
+        - in: path
+          name: accountNumber
+          schema:
+          type: string
+          required: true
+          description: List of transactions in the current month for the accountNumber selected. If left empty a complete list of transactions for the current month is sent
+      description:  API for fetching a user's bank account for the current month. A list of account's numbers should be available 
       #produces:
        # - application/json
       responses:
@@ -118,6 +125,8 @@ paths:
             $ref: '#/definitions/TransactionsListAPIResponse'
         '401':
           description: Authentication error
+        '403':
+          description: Forbidden User
         '418':
           description: I'm a teapot, Protection from bots
         '500':
@@ -178,8 +187,6 @@ paths:
           description: Forbidden User
         '404':
           description: Transaction Not Found
-        '418':
-          description: I'm a teapot, Protection from bots
         '500':
           description: Internal Server Error
     put:
@@ -197,7 +204,7 @@ paths:
           description: Transaction's Id to retrieve
         - in: body
           name: body
-          description: Update transaction attributes
+          description: Update transaction attributes. At least one of the 2 parameters are required (if none an error 400 will be sent)
           required: true
           schema:
             $ref: '#/definitions/UserTransaction'
@@ -216,8 +223,6 @@ paths:
           description: Forbidden User
         '404':
           description: Transaction not found
-        '418':
-          description: I'm a teapot, Protection from bots
         '500':
           description: Internal Server Error
 securityDefinitions:
