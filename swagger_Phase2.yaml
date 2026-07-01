@@ -101,28 +101,21 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /userAccount/currentMonth/{accountNumber}:
+  /userAccount/accounts:
     get:
       security:
         - Bearer: []
       tags:
         - User account Module
-      summary: User Account API
-      parameters:
-        - in: path
-          name: accountNumber
-          schema:
-          type: string
-          required: true
-          description: List of transactions in the current month for the accountNumber selected. If left empty a complete list of transactions for the current month is sent
-      description:  API for fetching a user's bank account for the current month. A list of account's numbers should be available 
+      summary: User accounts list API
+      description: API for fetching a user bank accounts list
       #produces:
        # - application/json
       responses:
         '200':
-          description: Current month transactions retrieved successully
+          description: Current accounts status retrieved successfully
           schema:
-            $ref: '#/definitions/TransactionsListAPIResponse'
+            $ref: '#/definitions/UserAccountSummary'
         '401':
           description: Authentication error
         '403':
@@ -131,13 +124,43 @@ paths:
           description: I'm a teapot, Protection from bots
         '500':
           description: Internal Server Error
-  /userAccount/transactions/{transactionId}:
+  /userAccount/transactions/{accountId}:
     get:
       security:
         - Bearer: []
       tags:
         - User account Module
-      summary: User Transactions API
+      summary: User bank account transactions list API
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+          type: string
+          required: true
+          description: Account ID to retrieve transactions list
+      description: API for fetching a bank account transaction list
+      #produces:
+       # - application/json
+      responses:
+        '200':
+          description: Account transactions retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionsListAPIResponse'
+        '401':
+          description: Authentication error
+        '403':
+          description: Forbidden User
+        '404':
+          description: Account Not Found
+        '500':
+          description: Internal Server Error
+  /userAccount/transactionDetail/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User account Module
+      summary: User Transaction API
       parameters:
         - in: path
           name: transactionId
@@ -173,7 +196,7 @@ paths:
           name: transactionId
           type: string
           required: true
-          description: Transaction's Id to retrieve
+          description: Id for transaction to update
         - in: body
           name: body
           description: Update transaction attributes. At least one of the 2 parameters are required (if none an error 400 will be sent)
@@ -259,7 +282,7 @@ definitions:
         type: string
       note:
         type: string
-  TransactionsListAPIResponse:
+  UserAccountSummary:
     type: object
     properties:
       status:
@@ -272,6 +295,54 @@ definitions:
           type: object
           properties:
             id:
+              type: string
+              description: Bank account ID
+            accountNumber:
+              type: string
+              description: Bank account number
+            balance:
+              type: number
+              description: Current bank account balance
+  TransactionsListAPIResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          type: object
+          properties:
+            transactionId:
+              type: string
+              description: Transaction ID
+            date:
+              type: string
+              description: Transaction date
+            description:
+              type: string
+              description: Transaction description
+            amount:
+              type: number
+              description: Transaction amount
+            balance:
+              type: number
+              description: balance after transaction
+  TransactionsAPIResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          type: object
+          properties:
+            transactionId:
               type: string
               description: Transaction ID
             accountNumber:
@@ -298,18 +369,3 @@ definitions:
             balance:
               type: number
               description: balance after transaction
-  TransactionsAPIResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-      message:
-        type: string
-      body:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Transaction ID
